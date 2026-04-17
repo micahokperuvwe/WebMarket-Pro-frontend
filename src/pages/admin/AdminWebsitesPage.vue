@@ -7,7 +7,7 @@ import AdminShell from '../../components/AdminShell.vue'
 const authStore = useAuthStore()
 const API_BASE = import.meta.env.VITE_API_BASE_URL ?? '/api'
 
-const websites = ref([])
+const websites = ref<any[]>([])
 const pagination = ref({ page: 1, totalPages: 1, total: 0 })
 const isLoading = ref(true)
 const searchQuery = ref('')

@@ -62,15 +62,7 @@ async function unlike(websiteId: string) {
 }
 
 function addToCart(website: any) {
-  cartStore.addItem({
-    listingId: website.id,
-    title: website.title,
-    price: website.price,
-    currency: website.currency,
-    imageUrl: website.image_url,
-    slug: website.slug,
-    accessModel: website.access_model,
-  })
+  cartStore.addToCart(website.id)
 }
 
 onMounted(fetchLikes)

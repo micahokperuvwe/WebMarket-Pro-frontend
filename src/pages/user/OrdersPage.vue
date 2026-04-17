@@ -3,7 +3,6 @@ import { onMounted, ref } from 'vue'
 import { useAuthStore } from '../../stores/auth'
 import SiteHeader from '../../components/SiteHeader.vue'
 import SiteFooter from '../../components/SiteFooter.vue'
-import { formatCurrency } from '../../utils/format'
 
 const authStore = useAuthStore()
 const API_BASE = import.meta.env.VITE_API_BASE_URL ?? '/api'

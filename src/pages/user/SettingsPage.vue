@@ -65,7 +65,7 @@ async function handleUpdateProfile() {
                   <div class="mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-white/10 text-white shadow-xl backdrop-blur-md">
                      <svg class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
                   </div>
-                  <h3 class="font-display text-xl font-bold">{{ authStore.currentUser?.full_name }}</h3>
+                  <h3 class="font-display text-xl font-bold">{{ authStore.currentUser?.name }}</h3>
                   <p class="text-sm text-white/60 capitalize">{{ authStore.currentUser?.role }} Account</p>
                 </div>
              </div>

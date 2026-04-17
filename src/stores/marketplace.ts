@@ -28,7 +28,7 @@ export const useMarketplaceStore = defineStore('marketplace', () => {
   }
 
   function getReviews(listingId: string) {
-    return listingReviews[listingId] ?? []
+    return listingReviews[listingId as keyof typeof listingReviews] ?? []
   }
 
   function updateOrderStatus(orderId: string, status: 'pending' | 'paid' | 'delivered') {
