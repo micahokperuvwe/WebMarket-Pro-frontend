@@ -1,0 +1,147 @@
+@import "tailwindcss";
+
+@theme {
+  /* Refined Gold Palette - More Metallic & Sophisticated */
+  --color-gold-50: hsl(45, 100%, 98%);
+  --color-gold-100: hsl(45, 90%, 94%);
+  --color-gold-200: hsl(45, 85%, 88%);
+  --color-gold-300: hsl(45, 80%, 78%);
+  --color-gold-400: hsl(42, 75%, 65%);
+  --color-gold-500: hsl(38, 70%, 55%);
+  --color-gold-600: hsl(35, 65%, 45%);
+  --color-gold-700: hsl(32, 60%, 35%);
+  --color-gold-800: hsl(28, 55%, 28%);
+  --color-gold-900: hsl(25, 50%, 22%);
+  --color-gold-950: hsl(22, 45%, 12%);
+
+  /* Refined Mint Palette - High-tech, clean */
+  --color-mint-50: hsl(165, 80%, 98%);
+  --color-mint-100: hsl(165, 75%, 94%);
+  --color-mint-200: hsl(165, 70%, 88%);
+  --color-mint-300: hsl(165, 65%, 78%);
+  --color-mint-400: hsl(165, 60%, 65%);
+  --color-mint-500: hsl(165, 55%, 55%);
+  --color-mint-600: hsl(165, 50%, 45%);
+  --color-mint-700: hsl(165, 45%, 35%);
+  --color-mint-800: hsl(165, 40%, 28%);
+  --color-mint-900: hsl(165, 35%, 22%);
+  --color-mint-950: hsl(165, 30%, 12%);
+
+  /* Deep Space Ink - Professional dark theme */
+  --color-ink-50: hsl(220, 20%, 98%);
+  --color-ink-100: hsl(220, 18%, 94%);
+  --color-ink-200: hsl(220, 15%, 88%);
+  --color-ink-300: hsl(220, 12%, 78%);
+  --color-ink-400: hsl(220, 10%, 65%);
+  --color-ink-500: hsl(220, 8%, 55%);
+  --color-ink-600: hsl(220, 10%, 45%);
+  --color-ink-700: hsl(220, 12%, 35%);
+  --color-ink-800: hsl(220, 15%, 22%);
+  --color-ink-900: hsl(220, 20%, 12%);
+  --color-ink-950: hsl(220, 25%, 5%);
+}
+
+:root {
+  --bg-primary: #05070a; 
+  --bg-secondary: #0d1117;
+  --text-primary: #f0f6fc;
+  --text-secondary: #8b949e;
+  --border-color: rgba(240, 246, 252, 0.1);
+  --accent-gold: hsl(38, 70%, 55%);
+  --accent-mint: hsl(165, 55%, 55%);
+  
+  --glass-bg: rgba(13, 17, 23, 0.7);
+  --glass-border: rgba(240, 246, 252, 0.08);
+  --glass-blur: 20px;
+  
+  --font-display: 'Outfit', sans-serif;
+  --font-body: 'Inter', sans-serif;
+}
+
+body.light-mode {
+  --bg-primary: #ffffff;
+  --bg-secondary: #f6f8fa;
+  --text-primary: #1f2328;
+  --text-secondary: #656d76;
+  --border-color: #d0d7de;
+  --accent-gold: hsl(35, 65%, 45%);
+  --accent-mint: hsl(165, 50%, 45%);
+
+  --glass-bg: rgba(255, 255, 255, 0.85);
+  --glass-border: rgba(31, 35, 40, 0.08);
+  --glass-blur: 12px;
+}
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  min-height: 100vh;
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, .font-display {
+  font-family: var(--font-display);
+}
+
+.glass-panel {
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+
+.text-gradient {
+  background: linear-gradient(135deg, var(--accent-gold) 0%, var(--accent-mint) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.bg-gradient-premium {
+  background: linear-gradient(135deg, var(--accent-gold), var(--accent-mint));
+}
+
+.hover-glow {
+  transition: all 0.3s ease;
+}
+
+.hover-glow:hover {
+  box-shadow: 0 0 20px rgba(239, 185, 53, 0.2);
+  border-color: var(--accent-gold);
+}
+
+.btn-premium {
+  @apply relative overflow-hidden px-6 py-3 rounded-xl font-bold transition-all duration-300;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+}
+
+.btn-premium:hover {
+  background: var(--accent-gold);
+  color: #000;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px -10px var(--accent-gold);
+}
+
+.sidebar-link {
+  @apply flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200;
+}
+
+.sidebar-link.active {
+  @apply bg-white/10 text-white font-semibold;
+  box-shadow: inset 4px 0 0 var(--accent-gold);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.6s ease forwards;
+}
