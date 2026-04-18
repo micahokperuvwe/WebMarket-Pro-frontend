@@ -42,6 +42,7 @@ export const websiteListings: WebsiteListing[] = [
     description:
       'A polished dashboard starter for billing, team management, KPI tracking, and investor-facing admin workflows.',
     price: 420,
+    currency: 'USD',
     rating: 4.9,
     downloads: 74,
     sales: 96,
@@ -67,6 +68,7 @@ export const websiteListings: WebsiteListing[] = [
     description:
       'A cinematic property showcase with inquiry flows, neighborhood highlights, and immersive galleries.',
     price: 650,
+    currency: 'USD',
     rating: 4.8,
     downloads: 41,
     sales: 52,
@@ -90,6 +92,7 @@ export const websiteListings: WebsiteListing[] = [
     description:
       'Multi-vendor education storefront with bundled products, ratings, and creator dashboards.',
     price: 530,
+    currency: 'USD',
     rating: 4.7,
     downloads: 58,
     sales: 83,
@@ -114,6 +117,7 @@ export const websiteListings: WebsiteListing[] = [
     description:
       'A conversion-focused restaurant site with online orders, CMS-friendly menus, and local SEO sections.',
     price: 310,
+    currency: 'USD',
     rating: 4.6,
     downloads: 66,
     sales: 79,

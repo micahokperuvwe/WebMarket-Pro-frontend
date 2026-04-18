@@ -26,7 +26,6 @@ const form = ref({
   featured: false
 })
 
-const currentTag = ref('')
 const currentTech = ref('')
 const isLoading = ref(false)
 const errorMessage = ref('')
@@ -55,17 +54,6 @@ function removeTech(tech: string) {
   form.value.techStack = form.value.techStack.filter(t => t !== tech)
 }
 
-function addTag() {
-  const val = currentTag.value.trim()
-  if (val && !form.value.tags.includes(val)) {
-    form.value.tags.push(val)
-    currentTag.value = ''
-  }
-}
-
-function removeTag(tag: string) {
-  form.value.tags = form.value.tags.filter(t => t !== tag)
-}
 
 const fileStates = ref({
   mainImage: null as File | null,
