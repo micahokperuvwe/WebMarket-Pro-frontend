@@ -11,7 +11,7 @@ const router = createRouter({
       path: '/',
       name: 'landing',
       component: () => import('../pages/LandingPage.vue'),
-      meta: { title: 'WebMarket Pro | Marketplace for premium websites' },
+      meta: { title: 'ApexRetail | Marketplace for premium websites' },
     },
     {
       path: '/home',
@@ -113,7 +113,7 @@ const router = createRouter({
       path: '/welcome',
       name: 'welcome',
       component: () => import('../pages/WelcomePage.vue'),
-      meta: { title: 'Welcome to WebMarket Pro' },
+      meta: { title: 'Welcome to ApexRetail' },
     },
   ],
 })

@@ -4,7 +4,7 @@
       <div class="max-w-md space-y-6">
         <div class="flex items-center gap-3">
           <div class="h-8 w-8 rounded-lg bg-gradient-premium"></div>
-          <p class="font-display text-2xl font-black tracking-tight text-white">WebMarket <span class="text-gradient">Pro</span></p>
+          <p class="font-display text-2xl font-black tracking-tight text-white">Apex<span class="text-gradient">Retail</span></p>
         </div>
         <p class="text-lg font-medium leading-relaxed text-white/40">
           The industry standard for high-performance website marketplaces. 
@@ -34,7 +34,7 @@
     </div>
 
     <div class="mx-auto mt-20 flex max-w-7xl flex-col items-center justify-between gap-6 border-t border-white/5 pt-10 text-xs font-black uppercase tracking-[0.2em] text-white/20 md:flex-row">
-      <p>&copy; 2024 WebMarket Pro. All Rights Reserved.</p>
+      <p>&copy; 2024 ApexRetail. All Rights Reserved.</p>
       <div class="flex items-center gap-6">
         <a href="#" class="hover:text-gold-500">Twitter</a>
         <a href="#" class="hover:text-gold-500">Discord</a>

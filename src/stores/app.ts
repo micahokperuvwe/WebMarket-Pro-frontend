@@ -2,7 +2,7 @@ import { computed, ref, watch } from 'vue'
 import { defineStore } from 'pinia'
 
 export const useAppStore = defineStore('app', () => {
-  const STORAGE_KEY = 'webmarket_theme'
+  const STORAGE_KEY = 'apexretail_theme'
   const savedTheme = localStorage.getItem(STORAGE_KEY) as 'dark' | 'light' | null
   
   const theme = ref<'dark' | 'light'>(savedTheme || 'dark')

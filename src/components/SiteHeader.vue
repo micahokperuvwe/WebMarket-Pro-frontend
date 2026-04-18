@@ -36,7 +36,7 @@ function handleLogout() {
         </div>
         <div class="hidden sm:block">
           <p class="font-display text-[11px] font-black uppercase tracking-[0.25em] text-gold-500/80">Marketplace</p>
-          <p class="font-display text-xl font-extrabold tracking-tight text-white">WebMarket <span class="text-gradient">Pro</span></p>
+          <p class="font-display text-xl font-extrabold tracking-tight text-white">Apex<span class="text-gradient">Retail</span></p>
         </div>
       </RouterLink>
 

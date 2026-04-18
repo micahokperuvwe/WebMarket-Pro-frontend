@@ -22,7 +22,7 @@ const authStore = useAuthStore()
         </div>
         
         <h1 class="font-display text-5xl font-bold tracking-tight sm:text-7xl">
-          Welcome to <span class="text-gradient">WebMarket Pro</span>
+          Welcome to <span class="text-gradient">ApexRetail</span>
         </h1>
         
         <p class="text-lg text-white/60 leading-relaxed mx-auto max-w-2xl">

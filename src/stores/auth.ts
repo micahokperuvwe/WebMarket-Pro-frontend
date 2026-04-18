@@ -2,7 +2,7 @@ import { computed, ref } from 'vue'
 import { defineStore } from 'pinia'
 import type { UserProfile } from '../types/marketplace'
 
-const STORAGE_KEY = 'webmarket_auth_token'
+const STORAGE_KEY = 'apexretail_auth_token'
 const API_BASE = import.meta.env.VITE_API_BASE_URL ?? '/api'
 
 function parseJsonResponse(response: Response) {

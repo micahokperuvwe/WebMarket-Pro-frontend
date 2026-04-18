@@ -56,7 +56,7 @@ async function handleSubmit() {
               </div>
               <div>
                 <p class="text-xs font-bold uppercase tracking-widest text-white/40">Email Us</p>
-                <p class="font-medium">support@webmarketpro.com</p>
+                <p class="font-medium">support@apexretail.com</p>
               </div>
             </div>
             <div class="flex items-center gap-4">
