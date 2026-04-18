@@ -6,7 +6,7 @@ import AdminShell from '../../components/AdminShell.vue'
 const authStore = useAuthStore()
 const API_BASE = import.meta.env.VITE_API_BASE_URL ?? '/api'
 
-const notifications = ref([])
+const notifications = ref<any[]>([])
 const isLoading = ref(true)
 
 async function fetchNotifications() {
