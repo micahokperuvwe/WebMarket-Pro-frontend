@@ -39,6 +39,10 @@
   --color-ink-800: hsl(220, 15%, 22%);
   --color-ink-900: hsl(220, 20%, 12%);
   --color-ink-950: hsl(220, 25%, 5%);
+
+  /* Override core colors to make hardcoded classes theme-aware */
+  --color-white: var(--text-primary);
+  --color-black: var(--bg-primary);
 }
 
 :root {
