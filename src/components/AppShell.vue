@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import SiteHeader from './SiteHeader.vue'
 import SiteFooter from './SiteFooter.vue'
+import CartSidebar from './CartSidebar.vue'
 </script>
 
 <template>
@@ -13,5 +14,6 @@ import SiteFooter from './SiteFooter.vue'
       </main>
       <SiteFooter />
     </div>
+    <CartSidebar />
   </div>
 </template>

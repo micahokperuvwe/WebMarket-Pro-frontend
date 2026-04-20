@@ -73,8 +73,8 @@ function handleLogout() {
         </button>
 
         <!-- Dynamic Cart -->
-        <RouterLink 
-          to="/cart" 
+        <button 
+          @click="cartStore.isSidebarOpen = true"
           class="group relative flex h-12 w-12 items-center justify-center rounded-2xl border border-white/5 bg-white/5 transition-all duration-300 hover:bg-white/10 active:scale-90"
         >
           <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 transition-transform duration-300 group-hover:-rotate-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
@@ -84,7 +84,7 @@ function handleLogout() {
           >
             {{ cartStore.items.length }}
           </span>
-        </RouterLink>
+        </button>
 
         <!-- User/Auth -->
         <div v-if="authStore.currentUser" class="flex items-center gap-2">

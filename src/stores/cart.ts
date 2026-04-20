@@ -4,6 +4,7 @@ import { useMarketplaceStore } from './marketplace'
 
 export const useCartStore = defineStore('cart', () => {
   const items = ref<Array<{ listingId: string; quantity: number }>>([{ listingId: 'site-1', quantity: 1 }])
+  const isSidebarOpen = ref(false)
   const marketplace = useMarketplaceStore()
 
   const detailedItems = computed(() =>
@@ -32,10 +33,11 @@ export const useCartStore = defineStore('cart', () => {
 
     if (existingItem) {
       existingItem.quantity += 1
-      return
+    } else {
+      items.value.push({ listingId, quantity: 1 })
     }
-
-    items.value.push({ listingId, quantity: 1 })
+    
+    isSidebarOpen.value = true
   }
 
   function removeFromCart(listingId: string) {
@@ -50,6 +52,7 @@ export const useCartStore = defineStore('cart', () => {
     items,
     detailedItems,
     subtotal,
+    isSidebarOpen,
     addToCart,
     removeFromCart,
     clearCart,
