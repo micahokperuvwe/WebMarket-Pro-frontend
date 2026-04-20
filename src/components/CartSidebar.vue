@@ -65,7 +65,7 @@ function handleCheckout() {
                 </div>
                 
                 <ul v-else role="list" class="-my-6 divide-y divide-white/10">
-                  <li v-for="item in cartStore.detailedItems" :key="item.listingId" class="flex py-6">
+                  <li v-for="item in cartStore.detailedItems" :key="item?.listingId" class="flex py-6">
                     <div class="h-24 w-24 flex-shrink-0 overflow-hidden rounded-xl border border-white/10 bg-white/5">
                       <img :src="item?.listing?.image" :alt="item?.listing?.title" class="h-full w-full object-cover object-center" />
                     </div>
@@ -79,13 +79,13 @@ function handleCheckout() {
                         <p class="mt-1 text-sm text-white/50">{{ item?.listing?.category }}</p>
                       </div>
                       <div class="flex flex-1 items-end justify-between text-sm">
-                        <p class="text-white/50">Qty {{ item.quantity }}</p>
+                        <p class="text-white/50">Qty {{ item?.quantity }}</p>
 
                         <div class="flex">
                           <button 
                             type="button" 
                             class="font-medium text-red-400 hover:text-red-300 transition-colors"
-                            @click="cartStore.removeFromCart(item.listingId)"
+                            @click="item?.listingId && cartStore.removeFromCart(item.listingId)"
                           >
                             Remove
                           </button>
