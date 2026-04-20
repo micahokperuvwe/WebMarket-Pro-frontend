@@ -20,7 +20,7 @@ const slices = computed(() => {
 })
 
 const gradient = computed(() => {
-  if (slices.value.length === 0) return 'rgba(255,255,255,0.05)'
+  if (slices.value.length === 0) return 'rgba(var(--text-primary), 0.05)'
   
   let currentPos = 0
   const stops = slices.value.map((slice) => {
@@ -41,18 +41,18 @@ const gradient = computed(() => {
         class="h-48 w-48 rounded-full shadow-2xl transition-transform duration-500 hover:scale-105" 
         :style="{ background: gradient }"
       >
-         <div v-if="slices.length === 0" class="flex h-full w-full items-center justify-center rounded-full bg-white/5 border border-white/5">
-            <span class="text-xs font-black uppercase tracking-widest text-white/20">No Data</span>
+         <div v-if="slices.length === 0" class="flex h-full w-full items-center justify-center rounded-full bg-primary/5 border border-primary/5">
+            <span class="text-xs font-black uppercase tracking-widest text-secondary/20">No Data</span>
          </div>
       </div>
     </div>
     
     <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-      <div v-for="slice in slices" :key="slice.label" class="flex items-center gap-3 rounded-2xl bg-white/5 p-4 transition-all hover:bg-white/10">
+      <div v-for="slice in slices" :key="slice.label" class="flex items-center gap-3 rounded-2xl bg-primary/5 p-4 transition-all hover:bg-primary/10">
         <span class="h-3 w-3 rounded-full shadow-sm" :style="{ backgroundColor: slice.color }"></span>
         <div class="flex-1 overflow-hidden">
-          <p class="truncate text-xs font-black uppercase tracking-widest text-white">{{ slice.label }}</p>
-          <p class="text-[10px] font-bold text-white/40">{{ slice.count }} Assets ({{ slice.percentage }}%)</p>
+          <p class="truncate text-xs font-black uppercase tracking-widest text-primary">{{ slice.label }}</p>
+          <p class="text-[10px] font-bold text-secondary">{{ slice.count }} Assets ({{ slice.percentage }}%)</p>
         </div>
       </div>
     </div>

@@ -40,9 +40,11 @@
   --color-ink-900: hsl(220, 20%, 12%);
   --color-ink-950: hsl(220, 25%, 5%);
 
-  /* Override core colors to make hardcoded classes theme-aware */
-  --color-white: var(--text-primary);
-  --color-black: var(--bg-primary);
+  /* Semantic Theme Colors - Respond to --text and --bg variables */
+  --color-primary: var(--text-primary);
+  --color-secondary: var(--text-secondary);
+  --color-canvas: var(--bg-primary);
+  --color-surface: var(--bg-secondary);
 }
 
 :root {
@@ -95,7 +97,7 @@ h1, h2, h3, h4, .font-display {
   backdrop-filter: blur(var(--glass-blur));
   -webkit-backdrop-filter: blur(var(--glass-blur));
   border: 1px solid var(--glass-border);
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
 }
 
 .text-gradient {
@@ -136,7 +138,7 @@ h1, h2, h3, h4, .font-display {
 }
 
 .sidebar-link.active {
-  @apply bg-white/10 text-white font-semibold;
+  @apply bg-primary/10 text-primary font-semibold;
   box-shadow: inset 4px 0 0 var(--accent-gold);
 }
 

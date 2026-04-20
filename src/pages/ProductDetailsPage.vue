@@ -32,46 +32,46 @@ const reviews = computed(() => (listing.value ? marketplaceStore.getReviews(list
       </div>
 
       <div class="space-y-6">
-        <div class="glass-panel rounded-[32px] border p-6">
-          <p class="text-xs uppercase tracking-[0.28em] text-white/50">{{ listing.category }}</p>
-          <h1 class="mt-3 font-display text-4xl font-semibold">{{ listing.title }}</h1>
-          <p class="mt-4 text-white/72">{{ listing.description }}</p>
+        <div class="glass-panel rounded-[32px] border border-primary/10 p-6">
+          <p class="text-xs uppercase tracking-[0.28em] text-secondary">{{ listing.category }}</p>
+          <h1 class="mt-3 font-display text-4xl font-semibold text-primary">{{ listing.title }}</h1>
+          <p class="mt-4 text-secondary">{{ listing.description }}</p>
 
           <div class="mt-6 flex flex-wrap gap-2">
-            <span v-for="item in listing.tags" :key="item" class="rounded-full border border-white/10 px-3 py-1 text-xs text-white/60">
+            <span v-for="item in listing.tags" :key="item" class="rounded-full border border-primary/10 px-3 py-1 text-xs text-secondary">
               #{{ item }}
             </span>
           </div>
 
           <div class="mt-8 grid gap-4 sm:grid-cols-2">
-            <div class="rounded-[24px] bg-white/6 p-4">
-              <p class="text-xs uppercase tracking-[0.28em] text-white/50">Price</p>
-              <p class="mt-3 font-display text-4xl font-semibold">{{ formatCurrency(listing.price, listing.currency) }}</p>
+            <div class="rounded-[24px] bg-primary/5 p-4">
+              <p class="text-xs uppercase tracking-[0.28em] text-secondary">Price</p>
+              <p class="mt-3 font-display text-4xl font-semibold text-primary">{{ formatCurrency(listing.price, listing.currency) }}</p>
             </div>
-            <div class="rounded-[24px] bg-white/6 p-4">
-              <p class="text-xs uppercase tracking-[0.28em] text-white/50">Access</p>
-              <p class="mt-3 font-display text-3xl font-semibold">{{ listing.accessModel }}</p>
+            <div class="rounded-[24px] bg-primary/5 p-4">
+              <p class="text-xs uppercase tracking-[0.28em] text-secondary">Access</p>
+              <p class="mt-3 font-display text-3xl font-semibold text-primary">{{ listing.accessModel }}</p>
             </div>
           </div>
 
           <div class="mt-6 flex flex-wrap gap-3">
             <button
               type="button"
-              class="rounded-full bg-white px-6 py-3 font-medium text-ink-950"
+              class="rounded-full bg-primary px-6 py-3 font-black uppercase tracking-widest text-sm text-canvas"
               @click="cartStore.addToCart(listing.id)"
             >
               Add to cart
             </button>
-            <a :href="listing.demoUrl" target="_blank" rel="noreferrer" class="rounded-full border border-white/10 px-6 py-3 text-white/80">
+            <a :href="listing.demoUrl" target="_blank" rel="noreferrer" class="rounded-full border border-primary/10 px-6 py-3 text-secondary font-black uppercase tracking-widest text-sm hover:bg-primary/5 transition-colors">
               Live demo
             </a>
           </div>
         </div>
 
-        <div class="glass-panel rounded-[32px] border p-6">
-          <p class="text-xs uppercase tracking-[0.28em] text-white/50">Tech stack</p>
+        <div class="glass-panel rounded-[32px] border border-primary/10 p-6">
+          <p class="text-xs uppercase tracking-[0.28em] text-secondary">Tech stack</p>
           <div class="mt-4 flex flex-wrap gap-2">
-            <span v-for="item in listing.techStack" :key="item" class="rounded-full bg-white/6 px-4 py-2 text-sm">
+            <span v-for="item in listing.techStack" :key="item" class="rounded-full bg-primary/5 px-4 py-2 text-sm text-primary">
               {{ item }}
             </span>
           </div>
@@ -81,17 +81,17 @@ const reviews = computed(() => (listing.value ? marketplaceStore.getReviews(list
 
     <section class="space-y-5 py-4">
       <div>
-        <p class="text-xs uppercase tracking-[0.28em] text-white/50">Reviews and ratings</p>
-        <h2 class="font-display text-3xl font-semibold">Buyer feedback</h2>
+        <p class="text-xs uppercase tracking-[0.28em] text-secondary">Reviews and ratings</p>
+        <h2 class="font-display text-3xl font-semibold text-primary">Buyer feedback</h2>
       </div>
       <div class="grid gap-4">
-        <article v-for="review in reviews" :key="review.id" class="glass-panel rounded-[28px] border p-5">
+        <article v-for="review in reviews" :key="review.id" class="glass-panel rounded-[28px] border border-primary/10 p-5">
           <div class="flex items-center justify-between gap-4">
-            <h3 class="font-medium">{{ review.userName }}</h3>
-            <p class="text-sm text-white/60">{{ formatDate(review.createdAt) }}</p>
+            <h3 class="font-medium text-primary">{{ review.userName }}</h3>
+            <p class="text-sm text-secondary">{{ formatDate(review.createdAt) }}</p>
           </div>
           <p class="mt-2 text-sm text-gold-400">{{ '★'.repeat(review.rating) }}</p>
-          <p class="mt-3 text-white/72">{{ review.comment }}</p>
+          <p class="mt-3 text-secondary">{{ review.comment }}</p>
         </article>
       </div>
     </section>

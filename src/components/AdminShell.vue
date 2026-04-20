@@ -23,22 +23,22 @@ function handleLogout() {
 </script>
 
 <template>
-  <div class="flex min-h-screen bg-primary text-primary selection:bg-gold-500/30">
+  <div class="flex min-h-screen bg-canvas text-primary selection:bg-gold-500/30">
     <!-- Sidebar -->
     <aside 
-      class="fixed inset-y-0 left-0 z-50 w-72 transform border-r border-white font-body glass-panel transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] lg:static lg:translate-x-0"
+      class="fixed inset-y-0 left-0 z-50 w-72 transform border-r border-primary/10 font-body glass-panel transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] lg:static lg:translate-x-0"
       :class="isSidebarOpen ? 'translate-x-0' : '-translate-x-full'"
     >
       <div class="flex h-full flex-col p-8">
         <!-- Logo Section -->
         <RouterLink to="/" class="group mb-12 flex items-center gap-4">
           <div class="relative flex h-12 w-12 items-center justify-center overflow-hidden rounded-2xl bg-gradient-premium shadow-2xl shadow-gold-500/30 transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3">
-             <span class="relative z-10 text-xl font-black tracking-tighter text-black">W</span>
-             <div class="absolute inset-0 bg-white/20 opacity-0 transition-opacity group-hover:opacity-100"></div>
+             <span class="relative z-10 text-xl font-black tracking-tighter text-canvas">W</span>
+             <div class="absolute inset-0 bg-primary/20 opacity-0 transition-opacity group-hover:opacity-100"></div>
           </div>
           <div>
             <p class="font-display text-[11px] font-black uppercase tracking-[0.2em] text-gold-500/80">Control Center</p>
-            <p class="font-display text-xl font-extrabold tracking-tight text-white">Apex<span class="text-gradient">Retail</span></p>
+            <p class="font-display text-xl font-extrabold tracking-tight text-primary">Apex<span class="text-gradient">Retail</span></p>
           </div>
         </RouterLink>
 
@@ -50,8 +50,8 @@ function handleLogout() {
             :to="item.to"
             class="group relative flex items-center gap-4 rounded-2xl px-5 py-4 text-sm font-semibold transition-all duration-300"
             :class="route.path === item.to 
-              ? 'bg-white/10 text-white shadow-[0_0_20px_rgba(255,255,255,0.05)]' 
-              : 'text-white/40 hover:bg-white/5 hover:text-white/80'"
+              ? 'bg-primary/10 text-primary shadow-[0_0_20px_rgba(var(--text-primary),0.05)]' 
+              : 'text-secondary hover:bg-primary/5 hover:text-primary'"
           >
             <!-- Active Indicator Bar -->
             <div 
@@ -80,10 +80,10 @@ function handleLogout() {
         </nav>
 
         <!-- Sidebar Footer -->
-        <div class="mt-auto space-y-4 border-t border-white/5 pt-8">
+        <div class="mt-auto space-y-4 border-t border-primary/5 pt-8">
           <RouterLink 
             to="/home" 
-            class="flex items-center gap-3 rounded-2xl border border-white/5 bg-white/5 px-5 py-4 text-sm font-bold text-white/60 transition-all duration-300 hover:bg-white/10 hover:text-white"
+            class="flex items-center gap-3 rounded-2xl border border-primary/5 bg-primary/5 px-5 py-4 text-sm font-bold text-secondary transition-all duration-300 hover:bg-primary/10 hover:text-primary"
           >
             <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
              Storefront
@@ -104,18 +104,18 @@ function handleLogout() {
     <div 
       v-if="isSidebarOpen" 
       @click="isSidebarOpen = false"
-      class="fixed inset-0 z-40 bg-black/60 backdrop-blur-md lg:hidden"
+      class="fixed inset-0 z-40 bg-canvas/60 backdrop-blur-md lg:hidden"
     ></div>
 
     <!-- Main Content Area -->
     <div class="flex flex-1 flex-col overflow-hidden">
       <!-- Mobile Header -->
-      <header class="flex h-20 items-center justify-between border-b border-white/5 bg-primary/80 px-8 backdrop-blur-xl lg:hidden">
-        <button @click="isSidebarOpen = true" class="rounded-xl bg-white/5 p-2 text-white/70 hover:text-white">
+      <header class="flex h-20 items-center justify-between border-b border-primary/5 bg-canvas/80 px-8 backdrop-blur-xl lg:hidden">
+        <button @click="isSidebarOpen = true" class="rounded-xl bg-primary/5 p-2 text-secondary hover:text-primary">
           <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
         </button>
         <p class="font-display text-lg font-bold tracking-tight">Admin <span class="text-gradient">Panel</span></p>
-        <div class="h-10 w-10 overflow-hidden rounded-xl border border-white/10 p-0.5">
+        <div class="h-10 w-10 overflow-hidden rounded-xl border border-primary/10 p-0.5">
            <div class="h-full w-full rounded-[inherit] bg-gradient-premium"></div>
         </div>
       </header>
