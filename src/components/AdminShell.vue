@@ -81,14 +81,6 @@ function handleLogout() {
 
         <!-- Sidebar Footer -->
         <div class="mt-auto space-y-4 border-t border-primary/5 pt-8">
-          <RouterLink 
-            to="/home" 
-            class="flex items-center gap-3 rounded-2xl border border-primary/5 bg-primary/5 px-5 py-4 text-sm font-bold text-secondary transition-all duration-300 hover:bg-primary/10 hover:text-primary"
-          >
-            <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
-             Storefront
-          </RouterLink>
-          
           <button 
             @click="handleLogout"
             class="group flex w-full items-center gap-3 rounded-2xl px-5 py-4 text-sm font-bold text-red-400/60 transition-all duration-300 hover:bg-red-500/10 hover:text-red-400"

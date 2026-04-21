@@ -110,6 +110,12 @@ const router = createRouter({
       meta: { requiresAuth: true, requiresAdmin: true, title: 'Notifications' },
     },
     {
+      path: '/admin/users',
+      name: 'admin-users',
+      component: () => import('../pages/admin/AdminUsersPage.vue'),
+      meta: { requiresAuth: true, requiresAdmin: true, title: 'User Management' },
+    },
+    {
       path: '/welcome',
       name: 'welcome',
       component: () => import('../pages/WelcomePage.vue'),
