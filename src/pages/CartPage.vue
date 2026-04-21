@@ -44,6 +44,7 @@ const cartStore = useCartStore()
             Continue to checkout
           </RouterLink>
         </aside>
+      </div>
     </div>
   </AppShell>
 </template>
