@@ -76,13 +76,12 @@ const marketplaceStore = useMarketplaceStore()
                  <div class="flex items-center gap-3 rounded-xl bg-primary/5 p-4 text-xs font-bold text-secondary">
                     <svg class="h-5 w-5 text-mint-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M5 13l4 4L19 7"/></svg> Secure Paystack Webhooks
                  </div>
-                 <div class="flex items-center gap-3 rounded-xl bg-white/5 p-4 text-xs font-bold text-white/60">
+                 <div class="flex items-center gap-3 rounded-xl bg-primary/5 p-4 text-xs font-bold text-secondary">
                     <svg class="h-5 w-5 text-mint-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M5 13l4 4L19 7"/></svg> Scalable Image API
                  </div>
               </div>
            </div>
         </div>
-      </div>
     </section>
 
     <!-- Featured Listings -->

@@ -113,7 +113,6 @@ onMounted(fetchWebsites)
               </tr>
             </thead>
             <tbody class="divide-y divide-primary/5">
-            <tbody class="divide-y divide-primary/5">
               <tr v-if="isLoading" v-for="i in 5" :key="i" class="animate-pulse">
                  <td colspan="6" class="px-8 py-10"><div class="h-6 w-full rounded-xl bg-primary/5"></div></td>
               </tr>
