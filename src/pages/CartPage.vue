@@ -8,11 +8,16 @@ const cartStore = useCartStore()
 
 <template>
   <AppShell>
-    <section class="space-y-6 py-8">
-      <div>
-        <p class="text-xs uppercase tracking-[0.28em] text-secondary">Cart</p>
-        <h1 class="font-display text-4xl font-semibold text-primary">Ready for checkout</h1>
+    <header class="section-padding bg-primary/[0.01] border-b border-primary/5">
+      <div class="container-wide">
+        <p class="font-display text-xs font-black uppercase tracking-[0.4em] text-gold-500">Checkout Flow</p>
+        <h1 class="mt-4 font-display text-5xl font-black tracking-tight text-primary sm:text-7xl">
+          Your <span class="text-gradient">Cart</span>
+        </h1>
       </div>
+    </header>
+
+    <div class="container-wide py-16">
 
       <div class="grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">
         <div class="space-y-4">
@@ -39,7 +44,6 @@ const cartStore = useCartStore()
             Continue to checkout
           </RouterLink>
         </aside>
-      </div>
-    </section>
+    </div>
   </AppShell>
 </template>

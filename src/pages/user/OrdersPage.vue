@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import { useAuthStore } from '../../stores/auth'
-import SiteHeader from '../../components/SiteHeader.vue'
-import SiteFooter from '../../components/SiteFooter.vue'
+import AppShell from '../../components/AppShell.vue'
 
 const authStore = useAuthStore()
 const API_BASE = import.meta.env.VITE_API_BASE_URL ?? '/api'
@@ -59,18 +58,17 @@ onMounted(fetchOrders)
 </script>
 
 <template>
-  <div class="min-h-screen bg-primary text-primary">
-    <SiteHeader />
-
-    <main class="mx-auto max-w-7xl px-6 py-16">
-      <!-- Page Header -->
-      <header class="mb-14 space-y-2">
-        <p class="font-display text-xs font-black uppercase tracking-[0.3em] text-gold-500/70">Your Activity</p>
-        <h1 class="font-display text-5xl font-black tracking-tight text-primary">
+  <AppShell>
+    <header class="section-padding bg-primary/[0.01] border-b border-primary/5">
+      <div class="container-wide">
+        <p class="font-display text-xs font-black uppercase tracking-[0.4em] text-gold-500">Inventory Management</p>
+        <h1 class="mt-4 font-display text-5xl font-black tracking-tight text-primary sm:text-7xl">
           Orders <span class="text-gradient">&amp; Downloads</span>
         </h1>
-        <p class="text-lg font-medium text-secondary">Your complete purchase history and access links.</p>
-      </header>
+      </div>
+    </header>
+
+    <div class="container-wide py-16">
 
       <!-- Loading -->
       <div v-if="isLoading" class="space-y-6">
@@ -184,8 +182,6 @@ onMounted(fetchOrders)
           </div>
         </article>
       </div>
-    </main>
-
-    <SiteFooter />
-  </div>
+    </div>
+  </AppShell>
 </template>

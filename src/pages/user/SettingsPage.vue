@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useAuthStore } from '../../stores/auth'
-import SiteHeader from '../../components/SiteHeader.vue'
-import SiteFooter from '../../components/SiteFooter.vue'
+import AppShell from '../../components/AppShell.vue'
 
 const authStore = useAuthStore()
 const API_BASE = import.meta.env.VITE_API_BASE_URL ?? '/api'
@@ -45,15 +44,17 @@ async function handleUpdateProfile() {
 </script>
 
 <template>
-  <div class="min-h-screen bg-primary text-primary">
-  <SiteHeader />
-  <main class="p-6 lg:p-10">
-    <div class="mx-auto max-w-6xl">
-      <header class="mb-10">
-        <p class="mb-2 font-display text-xs font-black uppercase tracking-[0.3em] text-gold-500/70">Your Account</p>
-        <h1 class="font-display text-4xl font-bold tracking-tight text-primary">Account <span class="text-gradient">Settings</span></h1>
-        <p class="text-sm text-secondary">Manage your profile information and security preferences.</p>
-      </header>
+  <AppShell>
+    <header class="section-padding bg-primary/[0.01] border-b border-primary/5">
+      <div class="container-wide">
+        <p class="font-display text-xs font-black uppercase tracking-[0.4em] text-gold-500">Security & Profile</p>
+        <h1 class="mt-4 font-display text-5xl font-black tracking-tight text-primary sm:text-7xl">
+          Account <span class="text-gradient">Settings</span>
+        </h1>
+      </div>
+    </header>
+
+    <div class="container-wide py-16">
 
       <div class="grid grid-cols-1 gap-8 lg:grid-cols-3">
         <!-- Sidebar Info -->
@@ -182,7 +183,5 @@ async function handleUpdateProfile() {
         </div>
       </div>
     </div>
-  </main>
-  <SiteFooter />
-  </div>
+  </AppShell>
 </template>

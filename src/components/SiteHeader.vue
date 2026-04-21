@@ -26,8 +26,8 @@ function handleLogout() {
 </script>
 
 <template>
-  <header class="sticky top-0 z-50 px-6 py-6 transition-all duration-300">
-    <div class="mx-auto flex max-w-7xl items-center justify-between rounded-[2.5rem] border border-primary/5 bg-primary/5 px-10 py-4 shadow-2xl backdrop-blur-2xl transition-all duration-500 hover:bg-primary/10 hover:shadow-gold-500/5">
+  <header class="sticky top-0 z-50 px-4 py-4 transition-all duration-300 lg:px-6 lg:py-6">
+    <div class="mx-auto flex max-w-[var(--container-max)] items-center justify-between rounded-[2.5rem] border border-primary/5 bg-primary/5 px-6 py-3.5 shadow-2xl backdrop-blur-2xl transition-all duration-500 hover:bg-primary/10 hover:shadow-gold-500/5 lg:px-10 lg:py-4">
       <!-- Logo Section -->
       <RouterLink to="/" class="group flex items-center gap-4 transition-transform duration-300 hover:scale-105 active:scale-95">
         <div class="relative flex h-12 w-12 items-center justify-center overflow-hidden rounded-2xl bg-gradient-premium shadow-xl shadow-gold-500/20">
