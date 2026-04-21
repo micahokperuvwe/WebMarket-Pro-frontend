@@ -69,16 +69,16 @@
 
 body.light-mode {
   --bg-primary: #ffffff;
-  --bg-secondary: #f6f8fa;
-  --text-primary: #1f2328;
-  --text-secondary: #656d76;
-  --border-color: #d0d7de;
-  --accent-gold: hsl(35, 65%, 45%);
-  --accent-mint: hsl(165, 50%, 45%);
+  --bg-secondary: #f0f2f5;
+  --text-primary: #0a0c10;
+  --text-secondary: #4b5563;
+  --border-color: rgba(0, 0, 0, 0.12);
+  --accent-gold: hsl(38, 80%, 45%);
+  --accent-mint: hsl(165, 70%, 35%);
 
-  --glass-bg: rgba(255, 255, 255, 0.85);
-  --glass-border: rgba(31, 35, 40, 0.08);
-  --glass-blur: 12px;
+  --glass-bg: rgba(255, 255, 255, 0.9);
+  --glass-border: rgba(0, 0, 0, 0.12);
+  --glass-blur: 16px;
 }
 
 body {
