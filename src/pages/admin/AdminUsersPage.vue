@@ -151,7 +151,10 @@ onMounted(fetchUsers)
                        <span class="font-display text-sm font-black">{{ (user.full_name || 'U').charAt(0) }}</span>
                     </div>
                     <div>
-                      <p class="font-display text-lg font-extrabold text-primary">{{ user.full_name || 'Anonymous' }}</p>
+                      <div class="flex items-center gap-2">
+                        <p class="font-display text-lg font-extrabold text-primary">{{ user.full_name || 'Anonymous' }}</p>
+                        <span v-if="user.is_synced === false" class="rounded-lg bg-red-500/10 px-2 py-0.5 text-[8px] font-black uppercase tracking-widest text-red-400 border border-red-500/20">Missing Profile</span>
+                      </div>
                       <p class="text-xs font-bold text-secondary opacity-60">{{ user.email }}</p>
                     </div>
                   </div>
