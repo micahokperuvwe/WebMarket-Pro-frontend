@@ -112,6 +112,42 @@ export const useAuthStore = defineStore('auth', () => {
     return currentUser.value
   }
 
+  async function requestPasswordReset(email: string, redirectTo: string) {
+    const res = await fetch(`${API_BASE}/users/forgot-password`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, redirectTo }),
+    })
+
+    const payload = await parseJsonResponse(res)
+
+    if (!res.ok) {
+      throw new Error(payload?.error || payload?.message || 'Unable to send password reset email')
+    }
+
+    return payload
+  }
+
+  async function resetPassword(password: string, recoveryToken: string) {
+    const res = await fetch(`${API_BASE}/users/reset-password`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${recoveryToken}`,
+      },
+      body: JSON.stringify({ password }),
+    })
+
+    const payload = await parseJsonResponse(res)
+
+    if (!res.ok) {
+      throw new Error(payload?.error || payload?.message || 'Unable to update password')
+    }
+
+    clearAuth()
+    return payload
+  }
+
   function logout() {
     clearAuth()
   }
@@ -131,6 +167,8 @@ export const useAuthStore = defineStore('auth', () => {
     isAdmin,
     login,
     register,
+    requestPasswordReset,
+    resetPassword,
     logout,
     loadProfile,
     updateProfile,

@@ -64,7 +64,7 @@ async function onSubmit() {
               <div class="space-y-2">
                 <div class="flex items-center justify-between">
                   <label class="text-xs font-bold uppercase tracking-widest text-secondary">Password</label>
-                  <a href="#" class="text-[10px] font-bold uppercase tracking-widest text-gold-400 hover:underline">Forgot?</a>
+                  <router-link to="/forgot-password" class="text-[10px] font-bold uppercase tracking-widest text-gold-400 hover:underline">Forgot?</router-link>
                 </div>
                 <div class="relative group">
                   <div class="absolute left-4 top-1/2 -translate-y-1/2 text-secondary/30 transition-colors group-focus-within:text-gold-400">
