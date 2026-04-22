@@ -55,6 +55,10 @@
   --border-color: rgba(240, 246, 252, 0.1);
   --accent-gold: hsl(38, 70%, 55%);
   --accent-mint: hsl(165, 55%, 55%);
+  --color-primary: var(--text-primary);
+  --color-secondary: var(--text-secondary);
+  --color-canvas: var(--bg-primary);
+  --color-surface: var(--bg-secondary);
   
   --glass-bg: rgba(13, 17, 23, 0.7);
   --glass-border: rgba(240, 246, 252, 0.08);
@@ -75,16 +79,29 @@ body.light-mode {
   --border-color: rgba(0, 0, 0, 0.12);
   --accent-gold: hsl(38, 80%, 45%);
   --accent-mint: hsl(165, 70%, 35%);
+  --color-primary: var(--text-primary);
+  --color-secondary: var(--text-secondary);
+  --color-canvas: var(--bg-primary);
+  --color-surface: var(--bg-secondary);
 
   --glass-bg: rgba(255, 255, 255, 0.9);
   --glass-border: rgba(0, 0, 0, 0.12);
   --glass-blur: 16px;
 }
 
+html,
+body,
+#app {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+}
+
 body {
   background-color: var(--bg-primary);
   color: var(--text-primary);
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transition:
+    background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+    color 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   min-height: 100vh;
   font-family: var(--font-body);
   -webkit-font-smoothing: antialiased;
