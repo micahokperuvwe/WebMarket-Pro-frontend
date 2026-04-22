@@ -4,6 +4,49 @@ import ProductCard from '../components/ProductCard.vue'
 import { useMarketplaceStore } from '../stores/marketplace'
 
 const marketplaceStore = useMarketplaceStore()
+
+const categories = [
+  {
+    title: 'Corporate Business',
+    description: 'Professional company websites, consulting pages, finance brands, and service-led business funnels.',
+    icon: 'briefcase',
+  },
+  {
+    title: 'eCommerce',
+    description: 'Online store layouts, product catalogs, checkout-ready storefronts, and conversion-focused retail builds.',
+    icon: 'shopping-bag',
+  },
+  {
+    title: 'Education School',
+    description: 'Course platforms, school portals, training websites, and modern learning product experiences.',
+    icon: 'academic-cap',
+  },
+  {
+    title: 'Real Estate',
+    description: 'Property showcases, agency websites, listing platforms, and premium real estate landing experiences.',
+    icon: 'building',
+  },
+  {
+    title: 'Travel Agency',
+    description: 'Tour booking pages, travel showcases, itinerary sites, and destination-first booking experiences.',
+    icon: 'globe',
+  },
+  {
+    title: 'Medical Hospital',
+    description: 'Clinic websites, health booking flows, doctor profiles, and patient-friendly medical interfaces.',
+    icon: 'heart',
+  },
+  {
+    title: 'Hotels & Restaurants',
+    description: 'Hospitality websites, food ordering pages, hotel booking flows, and restaurant presentation themes.',
+    icon: 'sparkles',
+  },
+  {
+    title: 'Beauty & Spa',
+    description: 'Salon bookings, skincare brands, spa showcases, and polished beauty service experiences.',
+    icon: 'star',
+  },
+]
 </script>
 
 <template>
@@ -97,17 +140,21 @@ const marketplaceStore = useMarketplaceStore()
           <h2 class="font-display text-5xl font-black tracking-tight text-primary">Specialized <span class="text-gradient">Categories</span></h2>
         </header>
 
-        <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
-          <div v-for="(cat, i) in ['SaaS Solutions', 'Ecommerce', 'Premium Portfolios', 'API Services']" :key="cat" 
+        <div class="grid gap-8 md:grid-cols-2 xl:grid-cols-4">
+          <div v-for="category in categories" :key="category.title" 
                class="surface-premium group rounded-[2.5rem] p-10 transition-all hover:-translate-y-2 hover:border-gold-500/30">
             <div class="mb-8 flex h-16 w-16 items-center justify-center rounded-2xl bg-primary/5 text-gold-500 transition-colors group-hover:bg-gold-500 group-hover:text-canvas">
-               <svg v-if="i === 0" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
-               <svg v-else-if="i === 1" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
-               <svg v-else-if="i === 2" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
-               <svg v-else class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
+               <svg v-if="category.icon === 'briefcase'" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path d="M9 6V5a3 3 0 013-3h0a3 3 0 013 3v1m-9 0h12a2 2 0 012 2v8a2 2 0 01-2 2H6a2 2 0 01-2-2V8a2 2 0 012-2Z"/><path d="M4 12h16"/></svg>
+               <svg v-else-if="category.icon === 'shopping-bag'" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path d="M16 10V7a4 4 0 10-8 0v3"/><path d="M5 10h14l-1 10a2 2 0 01-2 2H8a2 2 0 01-2-2L5 10Z"/></svg>
+               <svg v-else-if="category.icon === 'academic-cap'" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path d="m3 9 9-5 9 5-9 5-9-5Z"/><path d="M21 9v6"/><path d="M6 11.5v4.5c0 1.1 2.7 3 6 3s6-1.9 6-3v-4.5"/></svg>
+               <svg v-else-if="category.icon === 'building'" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path d="M3 21h18"/><path d="M5 21V7l7-4 7 4v14"/><path d="M9 10h.01"/><path d="M9 14h.01"/><path d="M15 10h.01"/><path d="M15 14h.01"/></svg>
+               <svg v-else-if="category.icon === 'globe'" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a15 15 0 010 18"/><path d="M12 3a15 15 0 000 18"/></svg>
+               <svg v-else-if="category.icon === 'heart'" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path d="m12 20-1.4-1.3C5.4 13.9 2 10.8 2 7a5 5 0 0 1 9-3 5 5 0 0 1 9 3c0 3.8-3.4 6.9-8.6 11.7L12 20Z"/></svg>
+               <svg v-else-if="category.icon === 'sparkles'" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path d="m12 3 1.8 4.2L18 9l-4.2 1.8L12 15l-1.8-4.2L6 9l4.2-1.8L12 3Z"/><path d="m5 17 .9 2.1L8 20l-2.1.9L5 23l-.9-2.1L2 20l2.1-.9L5 17Z"/><path d="m19 14 .9 2.1L22 17l-2.1.9L19 20l-.9-2.1L16 17l2.1-.9L19 14Z"/></svg>
+               <svg v-else class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path d="m12 3 2.2 4.5 5 .7-3.6 3.5.9 4.9-4.5-2.4-4.5 2.4.9-4.9L4.8 8.2l5-.7L12 3Z"/></svg>
             </div>
-            <h3 class="mb-3 font-display text-xl font-bold text-primary">{{ cat }}</h3>
-            <p class="text-sm font-medium leading-relaxed text-secondary">Verified, high-performance digital assets optimized for immediate deployment.</p>
+            <h3 class="mb-3 font-display text-xl font-bold text-primary">{{ category.title }}</h3>
+            <p class="text-sm font-medium leading-relaxed text-secondary">{{ category.description }}</p>
           </div>
         </div>
       </div>
