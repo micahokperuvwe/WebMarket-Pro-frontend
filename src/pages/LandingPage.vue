@@ -80,11 +80,11 @@ const marketplaceStore = useMarketplaceStore()
     <section class="border-y border-primary/5 bg-primary/[0.01] py-12">
       <div class="container-wide">
         <div class="flex flex-wrap items-center justify-center gap-12 opacity-40 transition-opacity hover:opacity-100 md:justify-between lg:gap-24">
-           <img src="https://raw.githubusercontent.com/supabase/supabase/master/packages/common/assets/images/supabase-logo.svg" alt="Supabase" class="h-7 grayscale hover:grayscale-0 transition-all">
-           <span class="font-display text-2xl font-black tracking-tighter text-primary">PAYSTACK</span>
-           <img src="https://cloudinary-res.cloudinary.com/image/upload/v1589182370/cloudinary_logo_text_dark.svg" alt="Cloudinary" class="h-7 grayscale hover:grayscale-0 transition-all">
+           <span class="font-display text-2xl font-black tracking-tight text-primary">SUPABASE</span>
+           <span class="font-display text-2xl font-black tracking-tight text-primary">PAYSTACK</span>
+           <span class="font-display text-2xl font-black tracking-tight text-primary">CLOUDINARY</span>
            <span class="font-display text-2xl font-extrabold tracking-tight text-secondary">VITE <span class="text-primary">+ VUE</span></span>
-           <span class="font-display text-xl font-black uppercase tracking-widest text-primary">PostgreSQL</span>
+           <span class="font-display text-xl font-black uppercase tracking-widest text-primary">POSTGRESQL</span>
         </div>
       </div>
     </section>
