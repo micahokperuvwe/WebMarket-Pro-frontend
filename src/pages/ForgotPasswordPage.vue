@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { ref } from 'vue'
 import AppShell from '../components/AppShell.vue'
 import { useAuthStore } from '../stores/auth'
 
@@ -10,15 +10,13 @@ const errorMessage = ref('')
 const successMessage = ref('')
 const isLoading = ref(false)
 
-const resetRedirectUrl = computed(() => `${window.location.origin}/reset-password`)
-
 async function onSubmit() {
   errorMessage.value = ''
   successMessage.value = ''
   isLoading.value = true
 
   try {
-    const payload = await authStore.requestPasswordReset(email.value, resetRedirectUrl.value)
+    const payload = await authStore.requestPasswordReset(email.value)
     successMessage.value = payload?.message || 'Check your email for a password reset link.'
   } catch (error: any) {
     errorMessage.value = error.message || 'Unable to send password reset email'

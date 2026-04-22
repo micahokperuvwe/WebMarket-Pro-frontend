@@ -112,11 +112,11 @@ export const useAuthStore = defineStore('auth', () => {
     return currentUser.value
   }
 
-  async function requestPasswordReset(email: string, redirectTo: string) {
+  async function requestPasswordReset(email: string) {
     const res = await fetch(`${API_BASE}/users/forgot-password`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, redirectTo }),
+      body: JSON.stringify({ email }),
     })
 
     const payload = await parseJsonResponse(res)
