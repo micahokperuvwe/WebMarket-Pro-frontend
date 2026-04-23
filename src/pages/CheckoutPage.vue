@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
+import { useRouter } from 'vue-router'
 import AppShell from '../components/AppShell.vue'
 import { useAuthStore } from '../stores/auth'
 import { useCartStore } from '../stores/cart'
@@ -7,6 +8,10 @@ import { formatCurrency } from '../utils/format'
 
 const authStore = useAuthStore()
 const cartStore = useCartStore()
+const router = useRouter()
+const API_BASE = import.meta.env.VITE_API_BASE_URL ?? '/api'
+const isInitializingPayment = ref(false)
+const paymentError = ref('')
 
 // Fixed exchange rates to NGN for automatic conversion at checkout
 const EXCHANGE_RATES: Record<string, number> = {
@@ -25,10 +30,70 @@ const totalInNGN = computed(() => {
   }, 0)
 })
 
-function initializePayment() {
-  console.log('Initializing Paystack payment for:', totalInNGN.value, 'NGN')
-  // This will call the backend later
-  alert(`Payment of ${formatCurrency(totalInNGN.value, 'NGN')} initialized via Paystack.`)
+const paymentItems = computed(() =>
+  cartStore.detailedItems
+    .filter((item): item is NonNullable<typeof item> => Boolean(item))
+    .map((item) => ({
+      listingId: item.listing.id,
+      title: item.listing.title,
+      price: item.listing.price,
+      quantity: item.quantity,
+      deliveryType: item.listing.accessModel,
+    })),
+)
+
+async function initializePayment() {
+  paymentError.value = ''
+
+  if (!authStore.token) {
+    await router.push({ name: 'login', query: { redirect: '/checkout' } })
+    return
+  }
+
+  if (!authStore.currentUser?.email) {
+    paymentError.value = 'Please sign in again before starting payment.'
+    return
+  }
+
+  if (paymentItems.value.length === 0 || totalInNGN.value <= 0) {
+    paymentError.value = 'Your cart is empty. Add an item before starting payment.'
+    return
+  }
+
+  isInitializingPayment.value = true
+
+  try {
+    const response = await fetch(`${API_BASE}/payments/initialize`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${authStore.token}`,
+      },
+      body: JSON.stringify({
+        email: authStore.currentUser.email,
+        amount: totalInNGN.value,
+        items: paymentItems.value,
+      }),
+    })
+
+    const payload = await response.json()
+
+    if (!response.ok) {
+      throw new Error(payload?.error || 'Unable to initialize Paystack payment')
+    }
+
+    const authorizationUrl = payload?.data?.authorization_url
+
+    if (!authorizationUrl) {
+      throw new Error('Paystack did not return a checkout link')
+    }
+
+    window.location.href = authorizationUrl
+  } catch (error: any) {
+    paymentError.value = error.message || 'Unable to initialize Paystack payment'
+  } finally {
+    isInitializingPayment.value = false
+  }
 }
 </script>
 
@@ -97,12 +162,17 @@ function initializePayment() {
             </div>
           </div>
 
+          <div v-if="paymentError" class="mt-6 rounded-2xl border border-red-400/20 bg-red-400/5 p-4 text-sm font-medium text-red-400">
+            {{ paymentError }}
+          </div>
+
           <button 
             @click="initializePayment"
+            :disabled="isInitializingPayment"
             class="group relative mt-12 w-full overflow-hidden rounded-[2rem] bg-primary py-6 font-display text-base font-black uppercase tracking-[0.2em] text-canvas transition-all hover:scale-[1.02] active:scale-95 shadow-2xl shadow-primary/5"
           >
             <span class="relative z-10 flex items-center justify-center gap-3">
-              Initialize NGN Checkout
+              {{ isInitializingPayment ? 'Opening Paystack...' : 'Initialize NGN Checkout' }}
               <svg class="h-5 w-5 transition-transform group-hover:translate-x-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
             </span>
             <div class="absolute inset-0 -translate-x-full bg-gradient-premium transition-transform duration-500 group-hover:translate-x-0"></div>
