@@ -1,13 +1,11 @@
 <script setup lang="ts">
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
-import { useRoute } from 'vue-router'
+import { RouterLink, useRoute } from 'vue-router'
 import AppShell from '../components/AppShell.vue'
-import { useAuthStore } from '../stores/auth'
 import { useCartStore } from '../stores/cart'
 import { formatCurrency } from '../utils/format'
 
 const route = useRoute()
-const authStore = useAuthStore()
 const cartStore = useCartStore()
 const API_BASE = import.meta.env.VITE_API_BASE_URL ?? '/api'
 
@@ -28,12 +26,6 @@ const isPending = computed(() => order.value?.status === 'pending')
 let pollTimer: ReturnType<typeof setTimeout> | null = null
 
 async function fetchOrder() {
-  if (!authStore.token) {
-    error.value = 'Please sign in to view your order confirmation.'
-    isLoading.value = false
-    return
-  }
-
   if (!reference.value) {
     error.value = 'Missing payment reference.'
     isLoading.value = false
@@ -41,9 +33,7 @@ async function fetchOrder() {
   }
 
   try {
-    const res = await fetch(`${API_BASE}/payments/order/${encodeURIComponent(reference.value)}`, {
-      headers: { Authorization: `Bearer ${authStore.token}` },
-    })
+    const res = await fetch(`${API_BASE}/payments/order/${encodeURIComponent(reference.value)}`)
 
     const payload = await res.json()
 
@@ -77,12 +67,12 @@ async function startPollingIfNeeded() {
   }, 5000)
 }
 
-async function downloadWebsite(websiteId: string) {
-  downloadingId.value = websiteId
+async function downloadWebsite(itemId: string) {
+  downloadingId.value = itemId
   try {
-    const res = await fetch(`${API_BASE}/websites/download/${websiteId}`, {
-      headers: { Authorization: `Bearer ${authStore.token}` },
-    })
+    const res = await fetch(
+      `${API_BASE}/payments/order/${encodeURIComponent(reference.value)}/download/${encodeURIComponent(itemId)}`,
+    )
     const data = await res.json()
     if (data.downloadUrl) {
       window.open(data.downloadUrl, '_blank')
@@ -118,7 +108,7 @@ onBeforeUnmount(() => {
             Purchase <span class="text-gradient">Confirmation</span>
           </h1>
           <p class="mx-auto max-w-2xl text-sm font-medium leading-relaxed text-secondary">
-            Your payment return page is now linked to your order. Once Paystack confirms the charge, your downloads appear here immediately.
+            Your payment return page is now linked to your order. Once Paystack confirms the charge, your downloads appear here immediately without forcing a login first.
           </p>
         </header>
 
@@ -155,6 +145,21 @@ onBeforeUnmount(() => {
                 We are waiting for Paystack webhook confirmation. This page refreshes automatically for about one minute after payment return.
               </p>
             </div>
+
+            <div class="mt-6 flex flex-wrap gap-4">
+              <RouterLink
+                to="/orders"
+                class="rounded-2xl border border-primary/10 px-6 py-3 text-xs font-black uppercase tracking-widest text-primary transition-all hover:bg-primary/5"
+              >
+                View All Orders
+              </RouterLink>
+              <RouterLink
+                to="/home"
+                class="rounded-2xl bg-primary px-6 py-3 text-xs font-black uppercase tracking-widest text-canvas transition-all hover:bg-gold-500"
+              >
+                Continue Shopping
+              </RouterLink>
+            </div>
           </section>
 
           <section class="glass-panel rounded-[2.5rem] border border-primary/10 p-8 sm:p-10">
@@ -184,11 +189,11 @@ onBeforeUnmount(() => {
                   <button
                     v-if="isPaid && item.website_id"
                     type="button"
-                    :disabled="downloadingId === item.website_id"
+                    :disabled="downloadingId === item.id"
                     class="rounded-2xl bg-primary px-6 py-3 text-xs font-black uppercase tracking-widest text-canvas transition-all hover:bg-gold-500 disabled:opacity-50"
-                    @click="downloadWebsite(item.website_id)"
+                    @click="downloadWebsite(item.id)"
                   >
-                    {{ downloadingId === item.website_id ? 'Preparing...' : 'Download Now' }}
+                    {{ downloadingId === item.id ? 'Preparing...' : 'Download Now' }}
                   </button>
 
                   <span
