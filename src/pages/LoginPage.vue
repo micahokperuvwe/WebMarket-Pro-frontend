@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { useAuthStore } from '../stores/auth'
 import AppShell from '../components/AppShell.vue'
 
 const authStore = useAuthStore()
+const route = useRoute()
 const router = useRouter()
 
 const email = ref('')
@@ -18,8 +19,11 @@ async function onSubmit() {
 
   try {
     await authStore.login(email.value, password.value)
-    // Redirect to home or admin dashboard based on role
-    if (authStore.isAdmin) {
+    const redirect = typeof route.query.redirect === 'string' ? route.query.redirect : ''
+
+    if (redirect) {
+      await router.push(redirect)
+    } else if (authStore.isAdmin) {
       await router.push({ name: 'admin-dashboard' })
     } else {
       await router.push({ name: 'home' })

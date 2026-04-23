@@ -1,15 +1,16 @@
 <script setup lang="ts">
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import AppShell from '../components/AppShell.vue'
 
+const route = useRoute()
 const router = useRouter()
 
 function goToLogin() {
-  router.push({ name: 'login' })
+  router.push({ name: 'login', query: route.query })
 }
 
 function goToRegister() {
-  router.push({ name: 'register' })
+  router.push({ name: 'register', query: route.query })
 }
 </script>
 

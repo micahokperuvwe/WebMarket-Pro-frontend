@@ -1,9 +1,22 @@
 <script setup lang="ts">
+import { useRouter } from 'vue-router'
 import AppShell from '../components/AppShell.vue'
+import { useAuthStore } from '../stores/auth'
 import { useCartStore } from '../stores/cart'
 import { formatCurrency } from '../utils/format'
 
+const authStore = useAuthStore()
 const cartStore = useCartStore()
+const router = useRouter()
+
+async function continueToCheckout() {
+  if (!authStore.isLoggedIn) {
+    await router.push({ name: 'login', query: { redirect: '/checkout' } })
+    return
+  }
+
+  await router.push({ name: 'checkout' })
+}
 </script>
 
 <template>
@@ -40,9 +53,13 @@ const cartStore = useCartStore()
           <p class="text-xs uppercase tracking-[0.28em] text-secondary">Summary</p>
           <p class="mt-4 font-display text-4xl font-semibold text-primary">{{ formatCurrency(cartStore.subtotal) }}</p>
           <p class="mt-3 text-sm text-secondary">Secure Paystack checkout, email receipt, and gated delivery after payment verification.</p>
-          <RouterLink to="/checkout" class="mt-6 inline-flex rounded-full bg-primary px-6 py-3 font-black uppercase tracking-widest text-sm text-canvas">
+          <button
+            type="button"
+            @click="continueToCheckout"
+            class="mt-6 inline-flex rounded-full bg-primary px-6 py-3 font-black uppercase tracking-widest text-sm text-canvas"
+          >
             Continue to checkout
-          </RouterLink>
+          </button>
         </aside>
       </div>
     </div>
