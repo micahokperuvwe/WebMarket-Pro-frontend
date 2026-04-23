@@ -38,6 +38,12 @@ const router = createRouter({
       meta: { requiresAuth: true, title: 'Checkout' },
     },
     {
+      path: '/checkout/complete',
+      name: 'checkout-complete',
+      component: () => import('../pages/CheckoutCompletePage.vue'),
+      meta: { requiresAuth: true, title: 'Order confirmation' },
+    },
+    {
       path: '/auth',
       name: 'auth',
       component: () => import('../pages/AuthPage.vue'),
