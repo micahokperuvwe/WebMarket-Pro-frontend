@@ -55,6 +55,14 @@ async function initializePayment() {
     return
   }
 
+  const profile = await authStore.loadProfile()
+
+  if (!profile || !authStore.token) {
+    paymentError.value = 'Your session has expired. Please sign in again to continue checkout.'
+    await router.push({ name: 'login', query: { redirect: '/checkout' } })
+    return
+  }
+
   if (paymentItems.value.length === 0 || totalInNGN.value <= 0) {
     paymentError.value = 'Your cart is empty. Add an item before starting payment.'
     return
@@ -79,6 +87,13 @@ async function initializePayment() {
     const payload = await response.json()
 
     if (!response.ok) {
+      if (response.status === 401) {
+        authStore.logout()
+        paymentError.value = 'Your session has expired. Please sign in again to continue checkout.'
+        await router.push({ name: 'login', query: { redirect: '/checkout' } })
+        return
+      }
+
       throw new Error(payload?.error || 'Unable to initialize Paystack payment')
     }
 
