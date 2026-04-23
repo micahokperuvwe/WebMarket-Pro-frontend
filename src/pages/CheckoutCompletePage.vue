@@ -182,7 +182,7 @@ onBeforeUnmount(() => {
                   <p class="font-display text-xl font-black text-gold-500">{{ formatCurrency(Number(item.price), 'USD') }}</p>
 
                   <button
-                    v-if="isPaid"
+                    v-if="isPaid && item.website_id"
                     type="button"
                     :disabled="downloadingId === item.website_id"
                     class="rounded-2xl bg-primary px-6 py-3 text-xs font-black uppercase tracking-widest text-canvas transition-all hover:bg-gold-500 disabled:opacity-50"
@@ -195,7 +195,7 @@ onBeforeUnmount(() => {
                     v-else
                     class="rounded-2xl border border-primary/10 bg-primary/5 px-6 py-3 text-xs font-black uppercase tracking-widest text-secondary"
                   >
-                    Pending
+                    {{ isPaid ? 'Delivery Pending' : 'Pending' }}
                   </span>
                 </div>
               </article>

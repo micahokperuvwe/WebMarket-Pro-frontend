@@ -160,7 +160,7 @@ onMounted(fetchOrders)
                 <p class="font-display text-xl font-black text-mint-400">${{ Number(item.price).toLocaleString() }}</p>
                 
                 <button
-                  v-if="order.status === 'paid' || order.status === 'delivered'"
+                  v-if="item.website_id && (order.status === 'paid' || order.status === 'delivered')"
                   @click="downloadWebsite(item.website_id)"
                   :disabled="downloadingId === item.website_id"
                   class="flex items-center gap-2 rounded-2xl bg-primary px-6 py-3 font-display text-xs font-black uppercase tracking-widest text-canvas transition-all hover:bg-gold-500 active:scale-95 disabled:opacity-50"
@@ -175,7 +175,7 @@ onMounted(fetchOrders)
                 </button>
 
                 <span v-else class="rounded-2xl border border-primary/5 bg-primary/5 px-6 py-3 font-display text-xs font-black uppercase tracking-widest text-secondary/30">
-                  Awaiting Payment
+                  {{ order.status === 'paid' || order.status === 'delivered' ? 'Delivery Pending' : 'Awaiting Payment' }}
                 </span>
               </div>
             </div>
