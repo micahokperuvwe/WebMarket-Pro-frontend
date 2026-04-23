@@ -20,7 +20,7 @@ const slices = computed(() => {
 })
 
 const gradient = computed(() => {
-  if (slices.value.length === 0) return 'rgba(var(--text-primary), 0.05)'
+  if (slices.value.length === 0) return 'transparent'
   
   let currentPos = 0
   const stops = slices.value.map((slice) => {

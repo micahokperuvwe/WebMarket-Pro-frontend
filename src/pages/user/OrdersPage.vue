@@ -50,6 +50,8 @@ async function downloadWebsite(websiteId: string) {
 
 const statusConfig: Record<string, { label: string, class: string }> = {
   pending:   { label: 'Pending',   class: 'text-gold-400 bg-gold-400/10 border-gold-400/20' },
+  processing:{ label: 'Processing', class: 'text-mint-400 bg-mint-400/10 border-mint-400/20' },
+  processed: { label: 'Processed', class: 'text-blue-400 bg-blue-400/10 border-blue-400/20' },
   paid:      { label: 'Paid',      class: 'text-mint-400 bg-mint-400/10 border-mint-400/20' },
   delivered: { label: 'Delivered', class: 'text-blue-400 bg-blue-400/10 border-blue-400/20' },
 }
@@ -160,7 +162,7 @@ onMounted(fetchOrders)
                 <p class="font-display text-xl font-black text-mint-400">${{ Number(item.price).toLocaleString() }}</p>
                 
                 <button
-                  v-if="item.website_id && (order.status === 'paid' || order.status === 'delivered')"
+                  v-if="item.website_id && ['processing', 'processed', 'paid', 'delivered'].includes(order.status)"
                   @click="downloadWebsite(item.website_id)"
                   :disabled="downloadingId === item.website_id"
                   class="flex items-center gap-2 rounded-2xl bg-primary px-6 py-3 font-display text-xs font-black uppercase tracking-widest text-canvas transition-all hover:bg-gold-500 active:scale-95 disabled:opacity-50"
@@ -175,7 +177,7 @@ onMounted(fetchOrders)
                 </button>
 
                 <span v-else class="rounded-2xl border border-primary/5 bg-primary/5 px-6 py-3 font-display text-xs font-black uppercase tracking-widest text-secondary/30">
-                  {{ order.status === 'paid' || order.status === 'delivered' ? 'Delivery Pending' : 'Awaiting Payment' }}
+                  {{ ['processing', 'processed', 'paid', 'delivered'].includes(order.status) ? 'Delivery Pending' : 'Awaiting Payment' }}
                 </span>
               </div>
             </div>

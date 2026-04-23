@@ -184,7 +184,7 @@ export const sampleOrders: Order[] = [
     id: 'ORD-1001',
     createdAt: '2026-04-09',
     total: 950,
-    status: 'paid',
+    status: 'processing',
     paymentReference: 'PSK-839200',
     customerName: 'David Mensah',
     items: [
@@ -196,7 +196,7 @@ export const sampleOrders: Order[] = [
     id: 'ORD-1002',
     createdAt: '2026-04-10',
     total: 650,
-    status: 'delivered',
+    status: 'processed',
     paymentReference: 'PSK-839215',
     customerName: 'Sarah Okafor',
     items: [

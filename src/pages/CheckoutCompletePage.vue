@@ -20,7 +20,7 @@ const reference = computed(() => {
   return typeof raw === 'string' ? raw : ''
 })
 
-const isPaid = computed(() => ['paid', 'delivered'].includes(order.value?.status))
+const isPaid = computed(() => ['processing', 'processed', 'paid', 'delivered'].includes(order.value?.status))
 const isPending = computed(() => order.value?.status === 'pending')
 
 let pollTimer: ReturnType<typeof setTimeout> | null = null
@@ -43,7 +43,7 @@ async function fetchOrder() {
 
     order.value = payload
 
-    if (['paid', 'delivered'].includes(payload?.status)) {
+    if (['processing', 'processed', 'paid', 'delivered'].includes(payload?.status)) {
       cartStore.clearCart()
     }
   } catch (err: any) {

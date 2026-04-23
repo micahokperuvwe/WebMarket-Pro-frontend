@@ -17,8 +17,8 @@ const dashboardStats = ref({
   profit: 0
 })
 
-const salesData = ref([])
-const categoryDistribution = ref([])
+const salesData = ref<Array<{ label: string; sales: number; profit: number }>>([])
+const categoryDistribution = ref<Array<{ name: string; value: number }>>([])
 const recentActivity = ref([
   { id: 1, type: 'order', label: 'New purchase: Ecommerce Pro', time: '2 mins ago', amount: '$59' },
   { id: 2, type: 'user', label: 'New user registered: John Doe', time: '15 mins ago', amount: null },
@@ -49,14 +49,20 @@ async function fetchStats() {
     }
     
     // Map trends to SalesBarChart expectation (label, sales)
-    salesData.value = (sales || []).map((s: any) => ({
+    salesData.value = (Array.isArray(sales) ? sales : []).map((s: any) => ({
       label: new Date(s.date).toLocaleDateString('en-US', { weekday: 'short' }),
-      sales: s.revenue // Using revenue for the bar chart
+      sales: Number(s.revenue || 0),
+      profit: Number(s.revenue || 0),
     }))
 
-    categoryDistribution.value = category || []
+    categoryDistribution.value = (Array.isArray(category) ? category : []).map((item: any) => ({
+      name: String(item.name ?? 'Unknown'),
+      value: Number(item.value ?? 0),
+    }))
   } catch (err) {
     console.error('Failed to fetch dashboard data:', err)
+    salesData.value = []
+    categoryDistribution.value = []
   } finally {
     isLoading.value = false
   }

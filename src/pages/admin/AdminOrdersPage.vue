@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { useAuthStore } from '../../stores/auth'
 import AdminShell from '../../components/AdminShell.vue'
 
@@ -8,6 +8,7 @@ const API_BASE = import.meta.env.VITE_API_BASE_URL ?? '/api'
 
 const orders = ref<any[]>([])
 const isLoading = ref(true)
+const activeFilter = ref<'all' | 'pending' | 'processing' | 'processed'>('all')
 
 async function fetchOrders() {
   isLoading.value = true
@@ -42,13 +43,43 @@ async function updateStatus(id: string, status: string) {
   }
 }
 
+const statusCounts = computed(() => ({
+  pending: orders.value.filter((order) => order.status === 'pending').length,
+  processing: orders.value.filter((order) => ['processing', 'paid'].includes(order.status)).length,
+  processed: orders.value.filter((order) => ['processed', 'delivered'].includes(order.status)).length,
+}))
+
+const filteredOrders = computed(() => {
+  if (activeFilter.value === 'all') {
+    return orders.value
+  }
+
+  if (activeFilter.value === 'processing') {
+    return orders.value.filter((order) => ['processing', 'paid'].includes(order.status))
+  }
+
+  if (activeFilter.value === 'processed') {
+    return orders.value.filter((order) => ['processed', 'delivered'].includes(order.status))
+  }
+
+  return orders.value.filter((order) => order.status === activeFilter.value)
+})
+
 const getStatusColor = (status: string) => {
   switch (status) {
+    case 'processing':
     case 'paid': return 'text-mint-400 bg-mint-400/10'
     case 'pending': return 'text-gold-400 bg-gold-400/10'
-    case 'delivered': return 'text-ink-400 bg-ink-400/10'
+    case 'processed':
+    case 'delivered': return 'text-blue-400 bg-blue-400/10'
     default: return 'text-secondary bg-primary/5'
   }
+}
+
+const getStatusLabel = (status: string) => {
+  if (status === 'paid') return 'processing'
+  if (status === 'delivered') return 'processed'
+  return status
 }
 
 onMounted(fetchOrders)
@@ -58,9 +89,28 @@ onMounted(fetchOrders)
   <AdminShell>
     <div class="space-y-8">
       <header>
-        <h1 class="font-display text-4xl font-bold tracking-tight text-primary">Order <span class="text-gradient">Fulfillment</span></h1>
-        <p class="text-sm text-secondary">Track and manage customer purchases and delivery status.</p>
+        <h1 class="font-display text-4xl font-bold tracking-tight text-primary">Payment <span class="text-gradient">Management</span></h1>
+        <p class="text-sm text-secondary">See every payment and separate the pending, processing, and processed ones.</p>
       </header>
+
+      <div class="grid gap-4 md:grid-cols-4">
+        <button type="button" class="rounded-2xl border border-primary/10 px-5 py-4 text-left transition-all" :class="activeFilter === 'all' ? 'bg-primary text-canvas' : 'bg-primary/5 text-primary'" @click="activeFilter = 'all'">
+          <p class="text-[10px] font-black uppercase tracking-widest">All</p>
+          <p class="mt-2 font-display text-2xl font-black">{{ orders.length }}</p>
+        </button>
+        <button type="button" class="rounded-2xl border border-gold-400/20 px-5 py-4 text-left transition-all" :class="activeFilter === 'pending' ? 'bg-gold-400 text-canvas' : 'bg-gold-400/5 text-gold-400'" @click="activeFilter = 'pending'">
+          <p class="text-[10px] font-black uppercase tracking-widest">Pending</p>
+          <p class="mt-2 font-display text-2xl font-black">{{ statusCounts.pending }}</p>
+        </button>
+        <button type="button" class="rounded-2xl border border-mint-400/20 px-5 py-4 text-left transition-all" :class="activeFilter === 'processing' ? 'bg-mint-500 text-canvas' : 'bg-mint-400/5 text-mint-400'" @click="activeFilter = 'processing'">
+          <p class="text-[10px] font-black uppercase tracking-widest">Processing</p>
+          <p class="mt-2 font-display text-2xl font-black">{{ statusCounts.processing }}</p>
+        </button>
+        <button type="button" class="rounded-2xl border border-blue-400/20 px-5 py-4 text-left transition-all" :class="activeFilter === 'processed' ? 'bg-blue-500 text-canvas' : 'bg-blue-400/5 text-blue-400'" @click="activeFilter = 'processed'">
+          <p class="text-[10px] font-black uppercase tracking-widest">Processed</p>
+          <p class="mt-2 font-display text-2xl font-black">{{ statusCounts.processed }}</p>
+        </button>
+      </div>
 
       <div class="glass-panel overflow-hidden rounded-[2rem] border border-primary/10 shadow-2xl">
         <div class="overflow-x-auto">
@@ -80,10 +130,10 @@ onMounted(fetchOrders)
                <tr v-if="isLoading" v-for="i in 5" :key="i" class="animate-pulse">
                  <td colspan="7" class="px-6 py-8"><div class="h-4 w-full rounded bg-primary/5"></div></td>
                </tr>
-               <tr v-else-if="orders.length === 0">
+               <tr v-else-if="filteredOrders.length === 0">
                  <td colspan="7" class="px-6 py-12 text-center text-secondary">No orders found.</td>
                </tr>
-               <tr v-else v-for="order in orders" :key="order.id" class="transition-all hover:bg-primary/5">
+               <tr v-else v-for="order in filteredOrders" :key="order.id" class="transition-all hover:bg-primary/5">
                 <td class="px-6 py-4">
                   <p class="text-sm font-bold text-primary">{{ order.order_number }}</p>
                 </td>
@@ -103,7 +153,7 @@ onMounted(fetchOrders)
                 </td>
                 <td class="px-6 py-4">
                   <span :class="getStatusColor(order.status)" class="rounded-full px-3 py-1 text-[10px] font-bold uppercase">
-                    {{ order.status }}
+                    {{ getStatusLabel(order.status) }}
                   </span>
                 </td>
                 <td class="px-6 py-4">
@@ -117,8 +167,8 @@ onMounted(fetchOrders)
                       @change="updateStatus(order.id, ($event.target as HTMLSelectElement).value)"
                     >
                       <option value="pending">Pending</option>
-                      <option value="paid">Paid</option>
-                      <option value="delivered">Delivered</option>
+                      <option value="processing">Processing</option>
+                      <option value="processed">Processed</option>
                     </select>
                   </div>
                 </td>

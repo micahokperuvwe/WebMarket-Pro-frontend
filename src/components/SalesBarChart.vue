@@ -6,7 +6,16 @@ const props = defineProps<{
   points: DailySalesPoint[]
 }>()
 
-const maxValue = computed(() => Math.max(...props.points.map((point) => point.sales), 1))
+const normalizedPoints = computed(() =>
+  Array.isArray(props.points)
+    ? props.points.map((point) => ({
+        ...point,
+        sales: Number(point.sales || 0),
+      }))
+    : [],
+)
+
+const maxValue = computed(() => Math.max(...normalizedPoints.value.map((point) => point.sales), 1))
 </script>
 
 <template>
@@ -18,8 +27,11 @@ const maxValue = computed(() => Math.max(...props.points.map((point) => point.sa
       </div>
       <p class="text-sm text-secondary">Last 7 days</p>
     </div>
-    <div class="flex h-64 items-end gap-4">
-      <div v-for="point in points" :key="point.label" class="flex flex-1 flex-col items-center gap-3">
+    <div v-if="normalizedPoints.length === 0" class="flex h-64 items-center justify-center rounded-3xl border border-primary/5 bg-primary/5">
+      <p class="text-sm font-bold uppercase tracking-widest text-secondary">No revenue data yet</p>
+    </div>
+    <div v-else class="flex h-64 items-end gap-4">
+      <div v-for="point in normalizedPoints" :key="point.label" class="flex flex-1 flex-col items-center gap-3">
         <div class="flex h-56 w-full items-end rounded-3xl bg-primary/5 p-2">
           <div
             class="w-full rounded-2xl bg-gradient-to-t from-gold-400 to-mint-400 transition-all"

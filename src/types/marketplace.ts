@@ -43,7 +43,7 @@ export interface CartItem {
   quantity: number
 }
 
-export type OrderStatus = 'pending' | 'paid' | 'delivered'
+export type OrderStatus = 'pending' | 'processing' | 'processed' | 'paid' | 'delivered'
 
 export interface OrderItem {
   listingId: string

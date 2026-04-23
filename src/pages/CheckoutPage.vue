@@ -68,6 +68,11 @@ async function initializePayment() {
     return
   }
 
+  if (!profile.address?.trim()) {
+    paymentError.value = 'Please add your address in account settings before you initialize payment.'
+    return
+  }
+
   isInitializingPayment.value = true
 
   try {
@@ -79,6 +84,7 @@ async function initializePayment() {
       },
       body: JSON.stringify({
         email: authStore.currentUser.email,
+        address: profile.address.trim(),
         amount: totalInNGN.value,
         items: paymentItems.value,
       }),
@@ -133,6 +139,13 @@ async function initializePayment() {
           <div class="rounded-[2.5rem] bg-primary/5 p-8 border border-primary/5 transition-all hover:bg-primary/10">
             <p class="font-display text-[10px] font-black uppercase tracking-widest text-secondary">Deployment Handle</p>
             <p class="mt-4 text-sm font-bold text-primary/60 leading-relaxed">{{ authStore.currentUser?.address || 'No address provided' }}</p>
+            <RouterLink
+              v-if="!authStore.currentUser?.address"
+              to="/settings"
+              class="mt-4 inline-flex rounded-full border border-primary/10 px-4 py-2 text-[10px] font-black uppercase tracking-widest text-primary transition-all hover:bg-primary/5"
+            >
+              Add address
+            </RouterLink>
           </div>
         </div>
 
