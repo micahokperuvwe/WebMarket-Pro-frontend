@@ -45,7 +45,7 @@ const paymentItems = computed(() =>
 async function initializePayment() {
   paymentError.value = ''
 
-  if (!authStore.token) {
+  if (!authStore.token || !authStore.ensureActiveSession()) {
     await router.push({ name: 'login', query: { redirect: '/checkout' } })
     return
   }

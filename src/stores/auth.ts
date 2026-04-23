@@ -19,6 +19,21 @@ function parseJsonResponse(response: Response) {
   })
 }
 
+function decodeJwtPayload(token: string) {
+  try {
+    const parts = token.split('.')
+    if (parts.length !== 3) {
+      return null
+    }
+
+    const normalized = parts[1].replace(/-/g, '+').replace(/_/g, '/')
+    const padded = normalized.padEnd(Math.ceil(normalized.length / 4) * 4, '=')
+    return JSON.parse(atob(padded))
+  } catch {
+    return null
+  }
+}
+
 export const useAuthStore = defineStore('auth', () => {
   const token = ref<string | null>(localStorage.getItem(STORAGE_KEY))
   const currentUser = ref<UserProfile | null>(null)
@@ -39,8 +54,32 @@ export const useAuthStore = defineStore('auth', () => {
     currentUser.value = null
   }
 
+  function isTokenExpired(value: string | null = token.value) {
+    if (!value) {
+      return true
+    }
+
+    const payload = decodeJwtPayload(value)
+    const exp = typeof payload?.exp === 'number' ? payload.exp : null
+
+    if (!exp) {
+      return true
+    }
+
+    return exp <= Math.floor(Date.now() / 1000)
+  }
+
+  function ensureActiveSession() {
+    if (isTokenExpired()) {
+      clearAuth()
+      return false
+    }
+
+    return true
+  }
+
   async function loadProfile() {
-    if (!token.value) {
+    if (!token.value || !ensureActiveSession()) {
       return null
     }
 
@@ -165,6 +204,8 @@ export const useAuthStore = defineStore('auth', () => {
     currentUser,
     isLoggedIn,
     isAdmin,
+    isTokenExpired,
+    ensureActiveSession,
     login,
     register,
     requestPasswordReset,
