@@ -17,6 +17,29 @@ const dashboardStats = ref({
   profit: 0
 })
 
+const runtimeDiagnostics = ref<{
+  frontendUrl: string
+  supabaseUrl: string
+  supabaseProjectRef: string | null
+  counts: {
+    users: number
+    websites: number
+    orders: number
+  }
+  latestWebsite: null | {
+    id: string
+    title: string
+    slug: string
+    created_at: string
+  }
+  latestOrder: null | {
+    id: string
+    status: string
+    payment_reference: string | null
+    created_at: string
+  }
+} | null>(null)
+
 const salesData = ref<Array<{ label: string; sales: number; profit: number }>>([])
 const categoryDistribution = ref<Array<{ name: string; value: number }>>([])
 const recentActivity = ref([
@@ -26,27 +49,40 @@ const recentActivity = ref([
 ])
 
 const isLoading = ref(true)
+const errorMessage = ref('')
 
 async function fetchStats() {
   isLoading.value = true
+  errorMessage.value = ''
   try {
-    const [summaryRes, dashboardRes, salesRes, categoryRes] = await Promise.all([
+    const [summaryRes, dashboardRes, salesRes, categoryRes, runtimeRes] = await Promise.all([
       fetch(`${API_BASE}/admin/analytics/summary`, { headers: { Authorization: `Bearer ${authStore.token}` } }),
       fetch(`${API_BASE}/admin/dashboard`, { headers: { Authorization: `Bearer ${authStore.token}` } }),
       fetch(`${API_BASE}/admin/analytics/trends`, { headers: { Authorization: `Bearer ${authStore.token}` } }),
       fetch(`${API_BASE}/admin/analytics/category-distribution`, { headers: { Authorization: `Bearer ${authStore.token}` } }),
+      fetch(`${API_BASE}/admin/runtime`, { headers: { Authorization: `Bearer ${authStore.token}` } }),
     ])
+
+    const responses = [summaryRes, dashboardRes, salesRes, categoryRes, runtimeRes]
+    const firstFailure = responses.find((response) => !response.ok)
+
+    if (firstFailure) {
+      const errorPayload = await firstFailure.json().catch(() => null)
+      throw new Error(errorPayload?.error || 'Failed to fetch one or more dashboard endpoints')
+    }
 
     const summary = await summaryRes.json()
     const dashboard = await dashboardRes.json()
     const sales = await salesRes.json()
     const category = await categoryRes.json()
+    const runtime = await runtimeRes.json()
 
     dashboardStats.value = {
       ...dashboard,
       totalRevenue: summary.totalRevenue || 0,
       profit: summary.profit || 0
     }
+    runtimeDiagnostics.value = runtime
     
     // Map trends to SalesBarChart expectation (label, sales)
     salesData.value = (Array.isArray(sales) ? sales : []).map((s: any) => ({
@@ -61,6 +97,8 @@ async function fetchStats() {
     }))
   } catch (err) {
     console.error('Failed to fetch dashboard data:', err)
+    errorMessage.value = err instanceof Error ? err.message : 'Failed to fetch dashboard data'
+    runtimeDiagnostics.value = null
     salesData.value = []
     categoryDistribution.value = []
   } finally {
@@ -136,6 +174,51 @@ onMounted(() => {
            <SalesPieChart :data="categoryDistribution" />
         </div>
       </div>
+
+      <section class="glass-panel rounded-[3rem] border-primary/5 bg-primary/5 p-8 lg:p-10">
+        <div class="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+          <div class="space-y-1">
+            <h3 class="font-display text-2xl font-black text-primary">Runtime Connection</h3>
+            <p class="text-sm font-medium text-secondary">
+              This shows which backend and Supabase project the live admin dashboard is reading from.
+            </p>
+          </div>
+          <p class="font-display text-[10px] font-black uppercase tracking-[0.2em] text-secondary/50">
+            API: {{ API_BASE }}
+          </p>
+        </div>
+
+        <div v-if="errorMessage" class="mt-6 rounded-2xl border border-red-500/20 bg-red-500/5 px-5 py-4 text-sm font-bold text-red-400">
+          {{ errorMessage }}
+        </div>
+
+        <div v-if="runtimeDiagnostics" class="mt-8 grid gap-4 lg:grid-cols-3">
+          <div class="rounded-[2rem] border border-primary/5 bg-primary/[0.03] p-6">
+            <p class="text-[10px] font-black uppercase tracking-[0.2em] text-secondary/40">Supabase Project</p>
+            <p class="mt-3 font-display text-2xl font-black text-primary">
+              {{ runtimeDiagnostics.supabaseProjectRef || 'Unknown' }}
+            </p>
+            <p class="mt-2 break-all text-sm font-medium text-secondary">
+              {{ runtimeDiagnostics.supabaseUrl }}
+            </p>
+          </div>
+          <div class="rounded-[2rem] border border-primary/5 bg-primary/[0.03] p-6">
+            <p class="text-[10px] font-black uppercase tracking-[0.2em] text-secondary/40">Connected Counts</p>
+            <p class="mt-3 text-sm font-bold text-primary">Users: {{ runtimeDiagnostics.counts.users }}</p>
+            <p class="mt-2 text-sm font-bold text-primary">Websites: {{ runtimeDiagnostics.counts.websites }}</p>
+            <p class="mt-2 text-sm font-bold text-primary">Orders: {{ runtimeDiagnostics.counts.orders }}</p>
+          </div>
+          <div class="rounded-[2rem] border border-primary/5 bg-primary/[0.03] p-6">
+            <p class="text-[10px] font-black uppercase tracking-[0.2em] text-secondary/40">Latest Website</p>
+            <p class="mt-3 font-display text-lg font-black text-primary">
+              {{ runtimeDiagnostics.latestWebsite?.title || 'No website row found' }}
+            </p>
+            <p class="mt-2 text-sm font-medium text-secondary">
+              {{ runtimeDiagnostics.latestWebsite ? `/${runtimeDiagnostics.latestWebsite.slug}` : 'Add a site and refresh this panel.' }}
+            </p>
+          </div>
+        </div>
+      </section>
 
       <!-- Activity & Insights -->
       <div class="grid grid-cols-1 gap-8 lg:grid-cols-3">

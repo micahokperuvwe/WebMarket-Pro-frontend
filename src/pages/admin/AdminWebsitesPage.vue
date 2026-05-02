@@ -11,18 +11,27 @@ const websites = ref<any[]>([])
 const pagination = ref({ page: 1, totalPages: 1, total: 0 })
 const isLoading = ref(true)
 const searchQuery = ref('')
+const errorMessage = ref('')
 
 async function fetchWebsites() {
   isLoading.value = true
+  errorMessage.value = ''
   try {
     const res = await fetch(`${API_BASE}/websites?page=${pagination.value.page}&q=${searchQuery.value}`, {
       headers: { Authorization: `Bearer ${authStore.token}` }
     })
+    if (!res.ok) {
+      const errorPayload = await res.json().catch(() => null)
+      throw new Error(errorPayload?.error || 'Failed to fetch websites')
+    }
     const payload = await res.json()
     websites.value = payload.data || []
     pagination.value = payload.pagination || { page: 1, totalPages: 1, total: 0 }
   } catch (err) {
     console.error('Failed to fetch websites:', err)
+    errorMessage.value = err instanceof Error ? err.message : 'Failed to fetch websites'
+    websites.value = []
+    pagination.value = { page: 1, totalPages: 1, total: 0 }
   } finally {
     isLoading.value = false
   }
@@ -97,6 +106,10 @@ onMounted(fetchWebsites)
           </div>
         </div>
       </section>
+
+      <div v-if="errorMessage" class="rounded-[2rem] border border-red-500/20 bg-red-500/5 px-6 py-5 text-sm font-bold text-red-400">
+        {{ errorMessage }}
+      </div>
 
       <!-- Table Section -->
       <div class="glass-panel overflow-hidden rounded-[2.5rem] border-primary/5 bg-primary/[0.02]">
