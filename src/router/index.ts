@@ -50,6 +50,12 @@ const router = createRouter({
       meta: { title: 'Authentication' },
     },
     {
+      path: '/auth/callback',
+      name: 'auth-callback',
+      component: () => import('../pages/AuthCallbackPage.vue'),
+      meta: { title: 'Completing sign in' },
+    },
+    {
       path: '/login',
       name: 'login',
       component: () => import('../pages/LoginPage.vue'),

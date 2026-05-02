@@ -1,5 +1,6 @@
 import { computed, ref } from 'vue'
 import { defineStore } from 'pinia'
+import { requireSupabaseBrowserClient, supabaseBrowserClient } from '../lib/supabase'
 import type { UserProfile } from '../types/marketplace'
 
 const STORAGE_KEY = 'apexretail_auth_token'
@@ -126,6 +127,34 @@ export const useAuthStore = defineStore('auth', () => {
     return currentUser.value
   }
 
+  async function loginWithGoogle(redirectPath = '') {
+    const client = requireSupabaseBrowserClient()
+    const callbackUrl = new URL('/auth/callback', window.location.origin)
+
+    if (redirectPath) {
+      callbackUrl.searchParams.set('redirect', redirectPath)
+    }
+
+    const { data, error } = await client.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: callbackUrl.toString(),
+        queryParams: {
+          access_type: 'offline',
+          prompt: 'select_account',
+        },
+      },
+    })
+
+    if (error) {
+      throw new Error(error.message || 'Unable to start Google sign in')
+    }
+
+    if (data.url) {
+      window.location.assign(data.url)
+    }
+  }
+
   async function register(fullName: string, email: string, password: string) {
     const res = await fetch(`${API_BASE}/users/register`, {
       method: 'POST',
@@ -187,7 +216,36 @@ export const useAuthStore = defineStore('auth', () => {
     return payload
   }
 
+  async function finalizeOAuthLogin(code?: string | null) {
+    const client = requireSupabaseBrowserClient()
+
+    if (code) {
+      const { error } = await client.auth.exchangeCodeForSession(code)
+      if (error) {
+        throw new Error(error.message || 'Unable to complete Google sign in')
+      }
+    }
+
+    const { data, error } = await client.auth.getSession()
+
+    if (error || !data.session?.access_token) {
+      throw new Error(error?.message || 'Google sign in did not return a session')
+    }
+
+    setToken(data.session.access_token)
+    await loadProfile()
+
+    if (!currentUser.value) {
+      throw new Error('Unable to load your profile after Google sign in')
+    }
+
+    return currentUser.value
+  }
+
   function logout() {
+    if (supabaseBrowserClient) {
+      void supabaseBrowserClient.auth.signOut()
+    }
     clearAuth()
   }
 
@@ -207,7 +265,9 @@ export const useAuthStore = defineStore('auth', () => {
     isTokenExpired,
     ensureActiveSession,
     login,
+    loginWithGoogle,
     register,
+    finalizeOAuthLogin,
     requestPasswordReset,
     resetPassword,
     logout,
