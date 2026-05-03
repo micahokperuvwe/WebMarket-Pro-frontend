@@ -1,6 +1,6 @@
 import { computed, ref } from 'vue'
 import { defineStore } from 'pinia'
-import { requireSupabaseBrowserClient, supabaseBrowserClient } from '../lib/supabase'
+import { getSupabaseBrowserClient } from '../lib/supabase'
 import type { UserProfile } from '../types/marketplace'
 
 const STORAGE_KEY = 'apexretail_auth_token'
@@ -128,7 +128,7 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   async function loginWithGoogle(redirectPath = '') {
-    const client = requireSupabaseBrowserClient()
+    const client = await getSupabaseBrowserClient()
     const callbackUrl = new URL('/auth/callback', window.location.origin)
 
     if (redirectPath) {
@@ -217,7 +217,7 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   async function finalizeOAuthLogin(code?: string | null) {
-    const client = requireSupabaseBrowserClient()
+    const client = await getSupabaseBrowserClient()
 
     if (code) {
       const { error } = await client.auth.exchangeCodeForSession(code)
@@ -243,9 +243,7 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   function logout() {
-    if (supabaseBrowserClient) {
-      void supabaseBrowserClient.auth.signOut()
-    }
+    void getSupabaseBrowserClient().then((client) => client.auth.signOut()).catch(() => undefined)
     clearAuth()
   }
 
